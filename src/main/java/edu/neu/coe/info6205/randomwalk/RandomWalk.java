@@ -1,7 +1,8 @@
 /*
  * Copyright (c) 2017. Phasmid Software
  */
-
+// @Author: Aashay Pawar
+// @NUID: 002134382
 package edu.neu.coe.info6205.randomwalk;
 
 import java.util.Random;
@@ -21,7 +22,11 @@ public class RandomWalk {
      */
     private void move(int dx, int dy) {
         // FIXME do move by replacing the following code
-         throw new RuntimeException("Not implemented");
+
+        x += dx;
+        y +=dy;
+
+        //throw new RuntimeException("Not implemented");
         // END 
     }
 
@@ -32,6 +37,11 @@ public class RandomWalk {
      */
     private void randomWalk(int m) {
         // FIXME
+
+        for(int i=0;i<=m;i++){
+            randomMove();
+        }
+
         // END 
     }
 
@@ -52,7 +62,11 @@ public class RandomWalk {
      */
     public double distance() {
         // FIXME by replacing the following code
-         return 0.0;
+
+        double mDistanceCovered;
+        mDistanceCovered = Math.sqrt((Math.pow(x,2) + Math.pow(y,2)));
+        return mDistanceCovered;
+
         // END 
     }
 
@@ -74,13 +88,21 @@ public class RandomWalk {
     }
 
     public static void main(String[] args) {
-        if (args.length == 0)
-            throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
-        int m = Integer.parseInt(args[0]);
+        int m = 5;
         int n = 30;
-        if (args.length > 1) n = Integer.parseInt(args[1]);
-        double meanDistance = randomWalkMulti(m, n);
-        System.out.println(m + " steps: " + meanDistance + " over " + n + " experiments");
+
+        for(int i=1;i<=10;i++) {
+            double avg = 0;
+            int k = m*i;
+            System.out.println("For n = " + k + "\n");
+            for(int j=0;j<5;j++){
+                double meanDistance = randomWalkMulti(k, n);
+                avg += meanDistance;
+                System.out.println(k + " steps: " + meanDistance + " over " + n + " experiments");
+            }
+            avg /= 5;
+            System.out.println("\nAverage = " + avg + "\nSquare Root = " + Math.sqrt(k) + "\n\n");
+        }
     }
 
 }
