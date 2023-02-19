@@ -2,13 +2,14 @@ package edu.neu.coe.info6205.sort.par;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * This code has been fleshed out by Ziyao Qiao. Thanks very much.
  * CONSIDER tidy it up a bit.
  */
 class ParSort {
-
+    public static ForkJoinPool mPool;
     public static int cutoff = 1000;
 
     public static void sort(int[] array, int from, int to) {
@@ -50,7 +51,7 @@ class ParSort {
                     System.arraycopy(array, from, result, 0, result.length);
                     sort(result, 0, to - from);
                     return result;
-                }
+                }, mPool
         );
     }
 
