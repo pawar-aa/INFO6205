@@ -99,16 +99,16 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
     private final InsertionSort<X> insertionSort;
 
     public static void main (String[] args) {
-        int N = 10000;
+        int N = 1000;
 
-        for(int i=2;i<12;i++) {
+        while(N<=64000) {
             InstrumentedHelper<Integer> instrumentedHelper = new InstrumentedHelper<>("MergeSort", Config.setupConfig("true", "0", "0", "", ""));
             MergeSort<Integer> s = new MergeSort<>(instrumentedHelper);
-            int j = N * i / 2;
+            int j = N;
             s.init(j);
             Integer[] xs = instrumentedHelper.random(Integer.class, r -> r.nextInt(j));
-            Benchmark<Boolean> benchmark = new Benchmark_Timer<>("Sorting with", b -> s.sort(xs, 0, j));
-            double x = benchmark.run(true, 20);
+            Benchmark<Boolean> benchmark = new Benchmark_Timer<>("Sorting", b -> s.sort(xs, 0, j));
+            double nTime = benchmark.run(true, 20);
             long nCompares = instrumentedHelper.getCompares();
             long nSwaps = instrumentedHelper.getSwaps();
             long nHits = instrumentedHelper.getHits();
@@ -116,10 +116,12 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
             System.out.println("When array size is: " + j);
             System.out.println("Compares: " + nCompares);
             System.out.println("Swaps: " + nSwaps );
-            System.out.println("hits: " + nHits);
-            System.out.println("Time: " + x);
+            System.out.println("Hits: " + nHits);
+            System.out.println("Time: " + nTime);
 
-            System.out.println("\n\n");
+            System.out.println("\nFor referencs:\t" + j + "\t" + nCompares + "\t" + nSwaps + "\t" + nHits + "\t" + nTime + "\n");
+
+            N = N*2;
         }
     }
 }

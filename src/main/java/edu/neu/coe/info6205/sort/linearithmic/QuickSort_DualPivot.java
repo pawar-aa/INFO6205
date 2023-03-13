@@ -105,13 +105,14 @@ public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
     }
 
     public static void main (String[] args) {
-        int N = 10000;
+        int N = 1000;
 
-        for(int i=2;i<12;i++) {
+        while(N<=64000) {
 
             InstrumentedHelper<Integer> instrumentedHelper = new InstrumentedHelper<>("QuickSort_DualPivot", Config.setupConfig("true", "0", "0", "", ""));
             QuickSort_DualPivot<Integer> s = new QuickSort_DualPivot<>(instrumentedHelper);
-            int j = N * i / 2;
+
+            int j = N;
             s.init(j);
 
             Integer[] temp = instrumentedHelper.random(Integer.class, r -> r.nextInt(j));
@@ -122,11 +123,11 @@ public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
             Partition<Integer> p2 = partitionList.get(1);
             Partition<Integer> p3 = partitionList.get(2);
 
-            Benchmark<Boolean> benchmark1 = new Benchmark_Timer<>("Sorting with", b -> s.sort(temp, 0, p1.to, 0));
+            Benchmark<Boolean> benchmark1 = new Benchmark_Timer<>("Sorting", b -> s.sort(temp, 0, p1.to, 0));
             double b1 = benchmark1.run(true, 20);
-            Benchmark<Boolean> benchmark2 = new Benchmark_Timer<>("Sorting with", b -> s.sort(temp, p2.from, p2.to, 0));
+            Benchmark<Boolean> benchmark2 = new Benchmark_Timer<>("Sorting", b -> s.sort(temp, p2.from, p2.to, 0));
             double b2 = benchmark2.run(true, 20);
-            Benchmark<Boolean> benchmark3 = new Benchmark_Timer<>("Sorting with", b -> s.sort(temp, p3.from, j, 0));
+            Benchmark<Boolean> benchmark3 = new Benchmark_Timer<>("Sorting", b -> s.sort(temp, p3.from, j, 0));
             double b3 = benchmark3.run(true, 20);
 
             long nCompares = instrumentedHelper.getCompares();
@@ -138,10 +139,12 @@ public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
             System.out.println("When array size is: " + j);
             System.out.println("Compares: " + nCompares);
             System.out.println("Swaps: " + nSwaps );
-            System.out.println("hits: " + nHits);
+            System.out.println("Hits: " + nHits);
             System.out.println("Time: " + nTime);
 
-            System.out.println("\n\n");
+            System.out.println("\nFor referencs:\t" + j + "\t" + nCompares + "\t" + nSwaps + "\t" + nHits + "\t" + nTime + "\n");
+
+            N *= 2;
         }
     }
 
